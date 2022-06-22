@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:engaz_task/cubits/app_cubit/app_cubit.dart';
 import 'package:engaz_task/cubits/app_cubit/app_states.dart';
 import 'package:engaz_task/shared/components/place_builder_item.dart';
+import 'package:engaz_task/shared/components/place_details_builder_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,11 +18,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   GoogleMapController? googleMapController;
   String? pressedPlace;
+  int? pressedPlaceIndex;
 
   @override
   void initState() {
     AppCubit.get(context).getPlaces(context: context);
-    AppCubit.get(context).getMarkers(context: context);
     super.initState();
   }
 
@@ -47,6 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 zoomControlsEnabled: false,
                 zoomGesturesEnabled: true,
                 myLocationEnabled: true,
+                markers: cubit.markers,
                 onMapCreated: (GoogleMapController controller) {
                   googleMapController = controller;
                   setState(() {});
@@ -58,7 +60,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   zoom: 14.47460,
                 ),
-                markers: cubit.markers,
+                onCameraMove: (CameraPosition cameraPosition) {
+                  showBottomSheet(
+                    context: context,
+                    backgroundColor: const Color.fromRGBO(0, 0, 0, 0.1),
+                    builder: (context) => PlaceDetailsBuilderItem(
+                      placeDataModel:
+                          cubit.placeModel!.data![pressedPlaceIndex!],
+                      googleMapController: googleMapController,
+                    ),
+                  );
+                },
               ),
               Padding(
                 padding: EdgeInsetsDirectional.only(top: 30.h),
@@ -77,6 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             pressedPlace: pressedPlace,
                             onTap: () {
                               setState(() {
+                                pressedPlaceIndex = index;
                                 pressedPlace = cubit
                                     .placeModel!.data![index].placesID
                                     .toString();
@@ -96,7 +109,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               });
                             },
                           ),
-                          if (index == 9) SizedBox(width: 20.w),
+                          if (index == cubit.placeModel!.data!.length - 1)
+                            SizedBox(width: 20.w),
                         ],
                       ),
                       separatorBuilder: (BuildContext context, int index) =>

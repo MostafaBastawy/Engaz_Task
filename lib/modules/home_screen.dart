@@ -26,7 +26,7 @@ class HomeScreen extends StatelessWidget {
                 myLocationEnabled: true,
                 onMapCreated: (GoogleMapController controller) {},
                 initialCameraPosition: CameraPosition(
-                  target: LatLng(12.0, 45.05
+                  target: LatLng(30.020420855357255, 31.17437463469354
                       // cubit.currentUserLatLng!.latitude,
                       // cubit.currentUserLatLng!.longitude,
                       ),

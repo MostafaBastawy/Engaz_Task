@@ -1,0 +1,71 @@
+{
+  "status_code": 200,
+  "success": true,
+  "data": [
+    {
+      "PlacesID": "1",
+      "Lat": "30.0459",
+      "Longt": "31.2243",
+      "PlaceName": "Cairo Tower",
+      "description": "Cairo Tower the best tower inEgypt",
+      "Photo": "https://sae-marketing.com/mlbet/photo/-152879.png"
+    },
+    {
+      "PlacesID": "2",
+      "Lat": "29.9773",
+      "Longt": "31.1325",
+      "PlaceName": "Pyramids",
+      "description": "we have 3 Pyramids",
+      "Photo": "https://sae-marketing.com/mlbet/photo/-265177.png"
+    },
+    {
+      "PlacesID": "3",
+      "Lat": "22.3460",
+      "Longt": "31.6156",
+      "PlaceName": "Abu Simple",
+      "description": "very good place",
+      "Photo": "https://sae-marketing.com/mlbet/photo/-188844.png"
+    },
+    {
+      "PlacesID": "4",
+      "Lat": "31.2089",
+      "Longt": "29.9092",
+      "PlaceName": "alexandria library",
+      "description": "enjoy reading ",
+      "Photo": "https://sae-marketing.com/mlbet/photo/-289053.png"
+    },
+    {
+      "PlacesID": "5",
+      "Lat": "27.1783",
+      "Longt": "31.1859",
+      "PlaceName": "asuit ",
+      "description": "very good place to visit",
+      "Photo": "https://sae-marketing.com/mlbet/photo/-140268.png"
+    },
+    {
+      "PlacesID": "6",
+      "Lat": "27.9654",
+      "Longt": "34.3618",
+      "PlaceName": "Sharm",
+      "description": "enjoy swimming",
+      "Photo": "https://sae-marketing.com/mlbet/photo/-175149.png"
+    },
+    {
+      "PlacesID": "7",
+      "Lat": "24.5456",
+      "Longt": "27.1735",
+      "PlaceName": "wadi el gadid",
+      "description": "very good place in south Egypt",
+      "Photo": "https://sae-marketing.com/mlbet/photo/-327842.png"
+    },
+    {
+      "PlacesID": "8",
+      "Lat": "27.2579",
+      "Longt": "33.8116",
+      "PlaceName": "hurgada",
+      "description": "enjoy red sea",
+      "Photo": "https://sae-marketing.com/mlbet/photo/-16913.png"
+    }
+  ],
+  "message": "get sucssesfully"
+}

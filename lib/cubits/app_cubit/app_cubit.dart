@@ -7,6 +7,8 @@ import 'package:engaz_task/shared/tools/dio_helper/dio_helper.dart';
 import 'package:engaz_task/shared/tools/dio_helper/end_points.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class AppCubit extends Cubit<AppStates> {
@@ -28,8 +30,8 @@ class AppCubit extends Cubit<AppStates> {
       try {
         if (response['status_code'] == 200) {
           placeModel = PlaceModel.fromJson(response);
-          //await getUserCurrentLatLang();
-          getMarkers(context: context);
+          await getUserCurrentLatLang();
+          //getMarkers(context: context);
           emit(AppGetPlacesSuccessState());
         }
       } catch (e) {
@@ -55,27 +57,48 @@ class AppCubit extends Cubit<AppStates> {
           ),
           infoWindow: InfoWindow(
             title: placeModel!.data![i].placeName,
-            onTap: () {},
+            onTap: () {
+              showBottomSheet(
+                context: context,
+                backgroundColor: const Color.fromRGBO(0, 0, 0, 0.1),
+                builder: (context) => Container(
+                  height: 200.h,
+                  width: 428.w,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Color(0xA0000000).withOpacity(0.20),
+                        Color(0xA0000000).withOpacity(0.15),
+                        Color(0xA0000000).withOpacity(0.05),
+                        Color(0xA0000000).withOpacity(0.0),
+                      ],
+                      begin: AlignmentDirectional.bottomCenter,
+                      end: AlignmentDirectional.topCenter,
+                    ),
+                  ),
+                ),
+              );
+            },
           ),
         ),
       );
     }
   }
 
-  // Position? currentUserLatLng;
-  // bool? serviceEnabled;
-  // LocationPermission? permission;
-  // Future<void> getUserCurrentLatLang() async {
-  //   //emit(AppGetUserCurrentLatLangLoadingState());
-  //   permission = await Geolocator.checkPermission();
-  //   if (permission == LocationPermission.denied) {
-  //     permission = await Geolocator.requestPermission();
-  //   }
-  //   if (permission == LocationPermission.deniedForever) {
-  //     permission = await Geolocator.requestPermission();
-  //   }
-  //   currentUserLatLng = await Geolocator.getCurrentPosition(
-  //       desiredAccuracy: LocationAccuracy.high);
-  //   //emit(AppGetUserCurrentLatLangSuccessState());
-  // }
+  Position? currentUserLatLng;
+  bool? serviceEnabled;
+  LocationPermission? permission;
+  Future<void> getUserCurrentLatLang() async {
+    emit(AppGetUserCurrentLatLangLoadingState());
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+    }
+    if (permission == LocationPermission.deniedForever) {
+      permission = await Geolocator.requestPermission();
+    }
+    currentUserLatLng = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    emit(AppGetUserCurrentLatLangSuccessState());
+  }
 }

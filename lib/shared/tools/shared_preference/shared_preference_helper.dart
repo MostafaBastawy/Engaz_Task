@@ -1,3 +1,4 @@
+import 'package:engaz_task/shared/tools/shared_preference/keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferenceHelper {
@@ -6,7 +7,9 @@ class SharedPreferenceHelper {
     sharedPreferences = await SharedPreferences.getInstance();
   }
 
-  static void sharedKeysDispose() {}
+  static void sharedKeysDispose() {
+    SharedPreferenceHelper.removeData(key: clickedPlace);
+  }
 
   static Future<bool> setData({
     required String key,

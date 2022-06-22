@@ -2,6 +2,7 @@ import 'package:engaz_task/cubits/app_cubit/app_cubit.dart';
 import 'package:engaz_task/cubits/app_cubit/bloc_observer.dart';
 import 'package:engaz_task/modules/home_screen.dart';
 import 'package:engaz_task/shared/tools/dio_helper/dio_helper.dart';
+import 'package:engaz_task/shared/tools/shared_preference/shared_preference_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +10,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DioHelper.init();
+  await SharedPreferenceHelper.init();
+  SharedPreferenceHelper.sharedKeysDispose();
 
   BlocOverrides.runZoned(
     () {
@@ -28,8 +31,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (BuildContext context) =>
-              AppCubit()..getPlaces(context: context),
+          create: (BuildContext context) => AppCubit(),
         ),
       ],
       child: ScreenUtilInit(

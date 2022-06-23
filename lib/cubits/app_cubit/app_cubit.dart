@@ -18,6 +18,7 @@ class AppCubit extends Cubit<AppStates> {
   PlaceModel? placeModel;
   void getPlaces({
     required BuildContext context,
+    required GlobalKey<ScaffoldState> scaffoldKey,
   }) {
     emit(AppGetPlacesLoadingState());
     DioHelper.getData(
@@ -30,7 +31,7 @@ class AppCubit extends Cubit<AppStates> {
         if (response['status_code'] == 200) {
           placeModel = PlaceModel.fromJson(response);
           await getUserCurrentLatLang();
-          getMarkers(context: context);
+          getMarkers(context: context, scaffoldKey: scaffoldKey);
           emit(AppGetPlacesSuccessState());
         }
       } catch (e) {
@@ -44,6 +45,7 @@ class AppCubit extends Cubit<AppStates> {
   var markers = HashSet<Marker>();
   void getMarkers({
     required BuildContext context,
+    required GlobalKey<ScaffoldState> scaffoldKey,
   }) {
     markers = HashSet<Marker>();
     for (int i = 0; i < placeModel!.data!.length; i++) {
@@ -57,7 +59,12 @@ class AppCubit extends Cubit<AppStates> {
           infoWindow: InfoWindow(
             title: placeModel!.data![i].placeName,
           ),
-          onTap: () {},
+          onTap: () {
+            scaffoldKey.currentState!.showBottomSheet(
+              backgroundColor: const Color.fromRGBO(0, 0, 0, 0.1),
+              (context) => Container(),
+            );
+          },
         ),
       );
     }

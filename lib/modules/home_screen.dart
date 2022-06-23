@@ -17,12 +17,16 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   GoogleMapController? googleMapController;
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   String? pressedPlace;
   int? pressedPlaceIndex;
 
   @override
   void initState() {
-    AppCubit.get(context).getPlaces(context: context);
+    AppCubit.get(context).getPlaces(
+      context: context,
+      scaffoldKey: scaffoldKey,
+    );
     super.initState();
   }
 
@@ -39,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return BlocBuilder<AppCubit, AppStates>(
       builder: (BuildContext context, state) => Scaffold(
         appBar: null,
+        key: scaffoldKey,
         body: ConditionalBuilder(
           condition: state is AppGetPlacesSuccessState,
           builder: (BuildContext context) => Stack(

@@ -57,6 +57,7 @@ class AppCubit extends Cubit<AppStates> {
           infoWindow: InfoWindow(
             title: placeModel!.data![i].placeName,
           ),
+          onTap: () {},
         ),
       );
     }

@@ -3,6 +3,7 @@ import 'package:engaz_task/models/place_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class PlaceDetailsBuilderItem extends StatelessWidget {
   PlaceDataModel? placeDataModel;
@@ -22,10 +23,10 @@ class PlaceDetailsBuilderItem extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Color(0xA0000000).withOpacity(0.20),
-            Color(0xA0000000).withOpacity(0.15),
-            Color(0xA0000000).withOpacity(0.05),
-            Color(0xA0000000).withOpacity(0.0),
+            const Color(0xA0000000).withOpacity(0.20),
+            const Color(0xA0000000).withOpacity(0.15),
+            const Color(0xA0000000).withOpacity(0.05),
+            const Color(0xA0000000).withOpacity(0.0),
           ],
           begin: AlignmentDirectional.bottomCenter,
           end: AlignmentDirectional.topCenter,
@@ -35,10 +36,10 @@ class PlaceDetailsBuilderItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           CircleAvatar(
-            radius: 25.r,
-            backgroundColor: Color(0xFF000000).withOpacity(0.5),
+            radius: 20.r,
+            backgroundColor: const Color(0xFF000000).withOpacity(0.5),
             child: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.my_location,
                 color: Colors.white,
                 size: 25,
@@ -88,15 +89,18 @@ class PlaceDetailsBuilderItem extends StatelessWidget {
           ),
           SizedBox(width: 15.w),
           CircleAvatar(
-            radius: 25.r,
-            backgroundColor: Color(0xFF000000).withOpacity(0.5),
+            radius: 20.r,
+            backgroundColor: const Color(0xFF000000).withOpacity(0.5),
             child: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.map_outlined,
                 color: Colors.white,
                 size: 25,
               ),
-              onPressed: () {},
+              onPressed: () async {
+                await launchUrlString(
+                    'https://www.google.com/maps/search/?api=1&query=${placeDataModel!.lat},${placeDataModel!.longt}');
+              },
             ),
           ),
         ],

@@ -35,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     AppCubit cubit = AppCubit.get(context);
+
     return BlocBuilder<AppCubit, AppStates>(
       builder: (BuildContext context, state) => Scaffold(
         appBar: null,
@@ -61,15 +62,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   zoom: 14.47460,
                 ),
                 onCameraMove: (CameraPosition cameraPosition) {
-                  showBottomSheet(
-                    context: context,
-                    backgroundColor: const Color.fromRGBO(0, 0, 0, 0.1),
-                    builder: (context) => PlaceDetailsBuilderItem(
-                      placeDataModel:
-                          cubit.placeModel!.data![pressedPlaceIndex!],
-                      googleMapController: googleMapController,
-                    ),
-                  );
+                  if (pressedPlaceIndex != null) {
+                    showBottomSheet(
+                      context: context,
+                      backgroundColor: const Color.fromRGBO(0, 0, 0, 0.1),
+                      builder: (context) => PlaceDetailsBuilderItem(
+                        placeDataModel:
+                            cubit.placeModel!.data![pressedPlaceIndex!],
+                        googleMapController: googleMapController,
+                      ),
+                    );
+                  }
                 },
               ),
               Padding(

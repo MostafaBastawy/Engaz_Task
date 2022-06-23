@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:engaz_task/cubits/app_cubit/app_states.dart';
 import 'package:engaz_task/models/place_model.dart';
+import 'package:engaz_task/shared/components/place_details_builder_item.dart';
 import 'package:engaz_task/shared/tools/dio_helper/dio_helper.dart';
 import 'package:engaz_task/shared/tools/dio_helper/end_points.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,9 @@ class AppCubit extends Cubit<AppStates> {
       try {
         if (response['status_code'] == 200) {
           placeModel = PlaceModel.fromJson(response);
+          placeModel!.data!.sort(
+            (a, b) => int.parse(a.placesID!).compareTo(int.parse(b.placesID!)),
+          );
           await getUserCurrentLatLang();
           getMarkers(context: context, scaffoldKey: scaffoldKey);
           emit(AppGetPlacesSuccessState());
@@ -51,7 +55,7 @@ class AppCubit extends Cubit<AppStates> {
     for (int i = 0; i < placeModel!.data!.length; i++) {
       markers.add(
         Marker(
-          markerId: const MarkerId('placeLocation'),
+          markerId: MarkerId('${placeModel!.data![i].placesID}'),
           position: LatLng(
             double.parse(placeModel!.data![i].lat!),
             double.parse(placeModel!.data![i].longt!),
@@ -60,9 +64,13 @@ class AppCubit extends Cubit<AppStates> {
             title: placeModel!.data![i].placeName,
           ),
           onTap: () {
+            //print(placeModel!.data![i].placesID);
             scaffoldKey.currentState!.showBottomSheet(
               backgroundColor: const Color.fromRGBO(0, 0, 0, 0.1),
-              (context) => Container(),
+              (context) => PlaceDetailsBuilderItem(
+                placeDataModel: placeModel!
+                    .data![int.parse(placeModel!.data![i].placesID!) - 1],
+              ),
             );
           },
         ),

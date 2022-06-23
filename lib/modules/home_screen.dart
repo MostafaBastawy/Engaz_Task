@@ -67,7 +67,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   zoom: 14.47460,
                 ),
                 onCameraMove: (CameraPosition cameraPosition) {
-                  if (pressedPlaceIndex != null) {
+                  if (pressedPlaceIndex != null &&
+                      cameraPosition.target.latitude.toStringAsFixed(4) ==
+                          cubit.placeModel!.data![pressedPlaceIndex!].lat &&
+                      cameraPosition.target.longitude.toStringAsFixed(4) ==
+                          cubit.placeModel!.data![pressedPlaceIndex!].longt) {
                     showBottomSheet(
                       context: context,
                       backgroundColor: const Color.fromRGBO(0, 0, 0, 0.1),

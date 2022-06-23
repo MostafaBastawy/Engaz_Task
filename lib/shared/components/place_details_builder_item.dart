@@ -11,7 +11,7 @@ class PlaceDetailsBuilderItem extends StatelessWidget {
   PlaceDetailsBuilderItem({
     Key? key,
     required this.placeDataModel,
-    required this.googleMapController,
+    this.googleMapController,
   }) : super(key: key);
 
   @override
